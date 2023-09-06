@@ -3,6 +3,7 @@ const cors = require('cors');
 require("./config/db");
 const bodyParser = require('body-parser');
 const usersRouter = require("./routes/users.route");
+const adminsRouter = require("./routes/admin.route");
 const cheerio = require('cheerio');
 const fs = require('fs');
 
@@ -16,6 +17,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 app.use("/",usersRouter);
+
+app.use("/admin",adminsRouter);
 
 app.get("/signup",(req,res) => {
     res.sendFile(__dirname + "/views/signup.html");
