@@ -24,9 +24,18 @@ const getAllUsers = async (req, res) => {
       });
     }
     else if (id.password == req.body.password) {
-      activeUser = id;
-      res.sendFile(index.dirname + "/views/home.html");
-      //res.redirect("/home");
+      activeUser = await userInfo.findOne({ id: req.body.id });
+      fs.readFile(index.dirname + "/views/home.html", 'utf8', function (err, data) {
+
+        if (err) throw err;
+
+        var $ = cheerio.load(data);
+
+        $('h1').text("Hi! " + activeUser.name);
+
+        $.html();
+        res.send($.html());
+      });
     }
     else {
       fs.readFile(index.dirname + "/views/index.html", 'utf8', function (err, data) {
@@ -45,25 +54,58 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-/*
-const loadHome = async (req, res) => {
 
-  if (getActiveUser == null) {
+const loadUserProfile = async (req, res) => {
+
+  if (getActiveUser() == null) {
     res.redirect("/");
   }
   else {
-    fs.readFile(index.dirname + "/views/home.html", 'utf8', function (err, data) {
+    fs.readFile(index.dirname + "/views/profile.html", 'utf8', function (err, data) {
 
       if (err) throw err;
 
       var $ = cheerio.load(data);
+
+      $('title').text(getActiveUser().name);
+
+      $('div.name').text(getActiveUser().name);
+
+      $('td.uname').text(getActiveUser().name);
+      $('td.id').text(getActiveUser().id);
+      $('td.department').text(getActiveUser().department);
+      $('td.session').text(getActiveUser().session);
+      $('td.phone').text("+880" + getActiveUser().phone);
+      $('td.email').text(getActiveUser().email);
+
+      $('h1').text("Profile");
 
       $.html();
       res.send($.html());
     });
   }
 };
-*/
+
+const loadClassMates = async (req, res) => {
+
+  if (getActiveUser == null) {
+    res.redirect("/");
+  }
+  else {
+    fs.readFile(index.dirname + "/views/class.html", 'utf8', function (err, data) {
+
+      if (err) throw err;
+
+      var $ = cheerio.load(data);
+
+      //$('h1').text("Hilu! " + " [ " + activeUser.name + " ]");
+
+      $.html();
+      res.send($.html());
+    });
+  }
+};
+
 
 // get one user
 /*
@@ -81,7 +123,7 @@ const createUser = async (req, res) => {
   try {
     const id = await userLoginInfo.findOne({ id: req.body.id });
 
-    const existing = await userInfo.findOne({ id: req.body.id});
+    const existing = await userInfo.findOne({ id: req.body.id });
 
     if (id != null) {
 
@@ -97,7 +139,7 @@ const createUser = async (req, res) => {
       });
     }
 
-    else if(existing == null){
+    else if (existing == null) {
       fs.readFile(index.dirname + "/views/signup.html", 'utf8', function (err, data) {
 
         if (err) throw err;
@@ -147,6 +189,13 @@ const createUser = async (req, res) => {
   }
 };
 
+
+// sign out
+const signOut = async (req, res) => {
+  activeUser = null;
+  res.redirect("/");
+};
+
 function getActiveUser() {
   return activeUser;
 }
@@ -175,4 +224,4 @@ const deleteUser = async (req, res) => {
   }
 };*/
 
-module.exports = { getAllUsers, createUser, getActiveUser };
+module.exports = { getAllUsers, createUser, getActiveUser, loadUserProfile, loadClassMates, signOut };
