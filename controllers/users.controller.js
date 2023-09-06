@@ -129,7 +129,7 @@ const createUser = async (req, res) => {
           id: req.body.id,
           password: req.body.password,
         });
-        //await newUser.save();
+        await newUser.save();
         fs.readFile(index.dirname + "/views/oksignedup.html", 'utf8', function (err, data) {
 
           if (err) throw err;
