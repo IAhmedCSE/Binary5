@@ -1,4 +1,4 @@
 # Binary5
 
-## Developed By
--> Israk Ahmed
+**Developed by**
+> Israk Ahmed
