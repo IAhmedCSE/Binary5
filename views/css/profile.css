@@ -94,7 +94,8 @@ body {
     padding-top: 10px;
 }
 
-.url, hr {
+.url,
+hr {
     text-align: center;
 }
 
@@ -112,7 +113,8 @@ body {
     text-decoration: none;
 }
 
-.url a:hover, .url .active {
+.url a:hover,
+.url .active {
     background-color: #e8f5ff;
     border-radius: 28px;
     color: #000;
@@ -205,17 +207,30 @@ body {
 
 @media only screen and (max-width: 870px) {
 
-    img{
+
+    .navbar-top {
+        width: 31.2em;
+    }
+
+    .navbar-top ul {
+        padding: 18px 0px 0 40px;
+    }
+
+    .title {
+        left: 53%;
+    }
+
+    img {
         width: 70px;
         height: 70px;
     }
 
-    .sidenav{
+    .sidenav {
         left: 0;
         top: 70.5px;
-        height: 38%;
+        height: 25%;
         width: 500px;
-        overflow-x:visible;
+        overflow-x: visible;
     }
 
     .profile {
@@ -235,19 +250,22 @@ body {
         padding: 4px 0px;
     }
 
-    .url a:hover, .url .active {
+    .url a:hover,
+    .url .active {
         margin-left: 30%;
         width: 40%;
     }
 
-    .main{
-        margin-top: 52%;
-        margin-left: 7%;
+    .main {
+        margin-top: 65%;
+        margin-left: 20%;
         width: 82%;
     }
-    .main h2{
-        margin-left: 6.3em;
+
+    .main h2 {
+        margin-left: 4.6em;
     }
+
     .main .card {
         padding: 10px 0 10px 20px;
     }
