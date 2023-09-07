@@ -8,7 +8,7 @@
 body {
     background-color: #2b343a;
     font-family: Arial;
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 
 /* NavbarTop */
@@ -199,3 +199,56 @@ body {
 }
 
 /* End */
+
+
+/* For Phone */
+
+@media only screen and (max-width: 870px) {
+
+    img{
+        width: 70px;
+        height: 70px;
+    }
+
+    .sidenav{
+        left: 0;
+        top: 70.5px;
+        height: 38%;
+        width: 500px;
+        overflow-x:visible;
+    }
+
+    .profile {
+        margin-bottom: 10px;
+    }
+
+    .job {
+        padding-top: 0px;
+    }
+
+    .url hr {
+        margin-left: 30%;
+        width: 40%;
+    }
+
+    .url a {
+        padding: 4px 0px;
+    }
+
+    .url a:hover, .url .active {
+        margin-left: 30%;
+        width: 40%;
+    }
+
+    .main{
+        margin-top: 52%;
+        margin-left: 7%;
+        width: 82%;
+    }
+    .main h2{
+        margin-left: 6.3em;
+    }
+    .main .card {
+        padding: 10px 0 10px 20px;
+    }
+}
