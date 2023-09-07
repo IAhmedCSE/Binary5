@@ -92,7 +92,7 @@ const loadClassMates = async (req, res) => {
     res.redirect("/");
   }
   else {
-    fs.readFile(index.dirname + "/views/class.html", 'utf8', function (err, data) {
+    /*fs.readFile(index.dirname + "/views/class.html", 'utf8', function (err, data) {
 
       if (err) throw err;
 
@@ -102,7 +102,8 @@ const loadClassMates = async (req, res) => {
 
       $.html();
       res.send($.html());
-    });
+    });*/
+    res.send("Working on it");
   }
 };
 
