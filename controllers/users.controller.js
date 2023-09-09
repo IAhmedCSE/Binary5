@@ -155,6 +155,8 @@ const createUser = async (req, res) => {
 
     else {
       var tPass = req.body.password;
+      var conPass = req.body.conpassword;
+
       if (tPass.toString().length < 6) {
         fs.readFile(index.dirname + "/views/signup.html", 'utf8', function (err, data) {
 
@@ -167,6 +169,20 @@ const createUser = async (req, res) => {
           res.send($.html());
         });
       }
+
+      else if (tPass != conPass) {
+        fs.readFile(index.dirname + "/views/signup.html", 'utf8', function (err, data) {
+
+          if (err) throw err;
+
+          var $ = cheerio.load(data);
+
+          $('p.warning').text("Passwords doesn't match");
+          $.html();
+          res.send($.html());
+        });
+      }
+
       else {
         const newUser = new userLoginInfo({
           id: req.body.id,
