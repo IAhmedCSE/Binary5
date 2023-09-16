@@ -7,7 +7,7 @@ const adminsRouter = require("./routes/admin.route");
 const cheerio = require('cheerio');
 const fs = require('fs');
 
-const { createUser } = require('./controllers/users.controller');
+const { createUser, getOneClassMate } = require('./controllers/users.controller');
 
 const app = express();
 
@@ -17,6 +17,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 app.use("/",usersRouter);
+
+app.get("/:id", getOneClassMate);
 
 app.use("/admin",adminsRouter);
 

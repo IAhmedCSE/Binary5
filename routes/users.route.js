@@ -13,8 +13,4 @@ router.get("/signout", signOut);
 
 router.post("/", getAllUsers);
 
-//router.patch("/:id", updateUser);
-
-//router.delete("/:id", deleteUser);
-
 module.exports = router;

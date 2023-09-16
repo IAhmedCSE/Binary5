@@ -86,38 +86,84 @@ const loadUserProfile = async (req, res) => {
   }
 };
 
+
+// load whole class
 const loadClassMates = async (req, res) => {
 
   if (getActiveUser == null) {
     res.redirect("/");
   }
   else {
-    /*fs.readFile(index.dirname + "/views/class.html", 'utf8', function (err, data) {
+
+    var base = { session: -1, id: 1 };
+    allUsers = await userInfo.find().sort(base);
+
+    fs.readFile(index.dirname + "/views/class.html", 'utf8', function (err, data) {
 
       if (err) throw err;
 
       var $ = cheerio.load(data);
 
-      //$('h1').text("Hilu! " + " [ " + activeUser.name + " ]");
+
+      var it;
+      for (it = 0; it < allUsers.length; it++) {
+        $('div.container').append('<div class="card"><img src="https://lh3.googleusercontent.com/ytP9VP86DItizVX2YNA-xTYzV09IS7rh4WexVp7eilIcfHmm74B7odbcwD5DTXmL0PF42i2wnRKSFPBHlmSjCblWHDCD2oD1oaM1CGFcSd48VBKJfsCi4bS170PKxGwji8CPmehwPw=w200-h247-no" alt="Person" class="card__image"> <p class="card__name">' + allUsers[it].name + '</p> <div class="grid-container"> <div class="grid-child-idU">' + allUsers[it].id + ' </div> </div> <button class="btn draw-border"><a class="viewProfileBtn" href= "/' + allUsers[it].id + '">Profile</a></button> </div>');
+      }
+
 
       $.html();
       res.send($.html());
-    });*/
-    res.send("Working on it");
+    });
+
   }
 };
 
 
-// get one user
-/*
-const getOneUser = async (req, res) => {
+// show classmates profile
+
+const getOneClassMate = async (req, res) => {
   try {
-    const user = await userLoginInfo.findOne({ id: req.params.id });
-    res.status(200).json(user);
+    if (getActiveUser() == null) {
+      res.redirect("/");
+    }
+    else {
+
+      var oneClassMate = await userInfo.findOne({ id: req.params.id });
+
+      if (oneClassMate == null) {
+        res.redirect("/");
+      }
+
+      else {
+        fs.readFile(index.dirname + "/views/profile.html", 'utf8', function (err, data) {
+
+          if (err) throw err;
+
+          var $ = cheerio.load(data);
+
+          $('title').text(oneClassMate.name);
+
+          $('div.name').text(oneClassMate.name);
+
+          $('td.uname').text(oneClassMate.name);
+          $('td.id').text(oneClassMate.id);
+          $('td.department').text(oneClassMate.department);
+          $('td.session').text(oneClassMate.session);
+          $('td.phone').text("+880" + oneClassMate.phone);
+          $('td.email').text(oneClassMate.email);
+
+          $('h1').text("Profile");
+
+          $.html();
+          res.send($.html());
+        });
+      }
+
+    }
   } catch (error) {
     res.status(500).send(error.message);
   }
-};*/
+};
 
 // create user
 const createUser = async (req, res) => {
@@ -241,4 +287,4 @@ const deleteUser = async (req, res) => {
   }
 };*/
 
-module.exports = { getAllUsers, createUser, getActiveUser, loadUserProfile, loadClassMates, signOut };
+module.exports = { getAllUsers, createUser, getActiveUser, loadUserProfile, loadClassMates, signOut, getOneClassMate };
