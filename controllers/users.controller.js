@@ -86,24 +86,36 @@ const loadUserProfile = async (req, res) => {
   }
 };
 
+
+// working here ***************************************
 const loadClassMates = async (req, res) => {
 
   if (getActiveUser == null) {
     res.redirect("/");
   }
   else {
-    /*fs.readFile(index.dirname + "/views/class.html", 'utf8', function (err, data) {
+    
+    var base = {session: -1, id: 1};
+    allUsers = await userInfo.find().sort(base);
+
+    fs.readFile(index.dirname + "/views/class.html", 'utf8', function (err, data) {
 
       if (err) throw err;
 
       var $ = cheerio.load(data);
 
-      //$('h1').text("Hilu! " + " [ " + activeUser.name + " ]");
+
+      var it;
+      for(it = 0; it < allUsers.length; it++){
+        $('div.container').append('<div class="card"><img src="https://lh3.googleusercontent.com/ytP9VP86DItizVX2YNA-xTYzV09IS7rh4WexVp7eilIcfHmm74B7odbcwD5DTXmL0PF42i2wnRKSFPBHlmSjCblWHDCD2oD1oaM1CGFcSd48VBKJfsCi4bS170PKxGwji8CPmehwPw=w200-h247-no" alt="Person" class="card__image"> <p class="card__name">'+ allUsers[it].name +'</p> <div class="grid-container"> <div class="grid-child-idU"> ID : '+ allUsers[it].id +' </div> </div> <button class="btn draw-border"><a class="viewProfileBtn" href="#">Profile</a></button> </div>');
+      }
+
 
       $.html();
       res.send($.html());
-    });*/
-    res.send("Working on it");
+    });
+
+    //res.send("Working on it");
   }
 };
 

@@ -76,6 +76,15 @@ body{
   color: #ffe593;
 }
 
+.viewProfileBtn {
+  text-decoration: none;
+  color: #58afd1;
+}
+
+.viewProfileBtn:hover {
+  color: #ffe593;
+}
+
 .draw-border:hover::before,
 .draw-border:hover::after {
   border-color: #eb196e;
@@ -170,4 +179,8 @@ body{
   grid-template-columns: 1fr 1fr;
   grid-gap: 20px;
   font-size: 1.2em;
+}
+
+.grid-child-idU{
+  padding-left: 2em;
 }
