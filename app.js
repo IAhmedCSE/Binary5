@@ -18,8 +18,6 @@ app.use(bodyParser.json());
 
 app.use("/",usersRouter);
 
-app.get("/:id", getOneClassMate);
-
 app.use("/admin",adminsRouter);
 
 app.get("/signup",(req,res) => {
@@ -27,6 +25,8 @@ app.get("/signup",(req,res) => {
 });
 
 app.post("/signup",createUser);
+
+app.get("/:id", getOneClassMate);
 
 // home route
 app.get("/", (req,res) => {
