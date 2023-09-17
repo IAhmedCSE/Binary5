@@ -29,7 +29,7 @@ app.get("/signup",(req,res) => {
 
 app.post("/signup",createUser);
 
-app.get("/:id([0-9]{10})", getOneClassMate);    // In Lab
+app.get("/:id([0-9]{10})", getOneClassMate);
 
 // home route
 app.get("/", (req,res) => {

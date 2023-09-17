@@ -1,5 +1,3 @@
-//  In Lab
-
 const { facultyLogin } = require('../controllers/faculty.controller');
 
 const router = require('express').Router();
