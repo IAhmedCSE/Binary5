@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="./css/loginStyle.css">
+</head>
+<body>
+    <h1 style="color: aliceblue;">Verify ID</h1>
+
+    <body class="align">
+
+        <div class="grid">
+      
+          <form action="/verify-ID-OTP" method="POST" class="form login">
+      
+            <div class="form__field">
+              <label for="login__username"><svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#user"></use></svg><span class="hidden">ID</span></label>
+              <input id="login__username" type="number" name="id" class="form__input" placeholder="ID" required>
+            </div>
+        
+            <div class="form__field">
+              <input type="submit" value="Send OTP">
+            </div>
+      
+          </form>
+
+          <p style="color: red; text-align: center;" class="warning"></p>
+      
+        </div>
+      
+      
+      </body>
+</body>
+</html>
