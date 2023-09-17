@@ -3,6 +3,8 @@ const userInfo = require("../models/userInfo.model");
 const index = require('../index');
 const cheerio = require('cheerio');
 const fs = require('fs');
+//const { nodemailer, mailReceiver, mailSubject, mailBody, sendMail } = require('../controllers/mailer.controller');
+const { sendTheMail } = require('../controllers/mailer.controller');
 
 var activeUser;
 
@@ -263,20 +265,210 @@ function getActiveUser() {
   return activeUser;
 }
 
-/*
-// update user
-const updateUser = async (req, res) => {
+
+var RUser;
+// forget password
+const forgetPassword = async (req, res) => {
   try {
-    const user = await User.findOne({ id: req.params.id });
-    user.name = req.body.name;
-    user.age = Number(req.body.age);
-    await user.save();
-    res.status(200).json(user);
+
+    fs.readFile(index.dirname + "/views/forget-password.html", 'utf8', function (err, data) {
+
+      if (err) throw err;
+
+      var $ = cheerio.load(data);
+
+      if (RUser == null) {
+        $('p.warning').text("OTP Session timeout, Try again");
+        $.html();
+        res.send($.html());
+      }
+      else {
+        $('div.divID').append('<input id="login__username" type="number" name="id" class="form__input" placeholder=' + RUser.id + ' readonly>');
+
+        $.html();
+        res.send($.html());
+      }
+    });
+
   } catch (error) {
     res.status(500).send(error.message);
   }
 };
 
+// change password
+const changePassword = async (req, res) => {
+  try {
+    const user = await userLoginInfo.findOne({ id: RUser.id });
+
+    var tPass = req.body.password;
+    var conPass = req.body.conpassword;
+
+    if (tPass.toString().length < 6) {
+      fs.readFile(index.dirname + "/views/forget-password.html", 'utf8', function (err, data) {
+
+        if (err) throw err;
+
+        var $ = cheerio.load(data);
+
+        if (RUser == null) {
+          $('p.warning').text("OTP Session timeout, Try again");
+          $.html();
+          res.send($.html());
+        }
+        else {
+          $('div.divID').append('<input id="login__username" type="number" name="id" class="form__input" placeholder=' + RUser.id + ' readonly>');
+          $('p.warning').text("Password can't be less than 6 characters");
+          $.html();
+          res.send($.html());
+        }
+
+      });
+    }
+
+    else if (tPass != conPass) {
+      fs.readFile(index.dirname + "/views/forget-password.html", 'utf8', function (err, data) {
+
+        if (err) throw err;
+
+        var $ = cheerio.load(data);
+
+        if (RUser == null) {
+          $('p.warning').text("OTP Session timeout, Try again");
+          $.html();
+          res.send($.html());
+        }
+        else {
+          $('div.divID').append('<input id="login__username" type="number" name="id" class="form__input" placeholder=' + RUser.id + ' readonly>');
+          $('p.warning').text("Passwords doesn't match");
+          $.html();
+          res.send($.html());
+        }
+
+      });
+    }
+
+    else {
+      user.password = req.body.password;
+      await user.save();
+      fs.readFile(index.dirname + "/views/oksignedup.html", 'utf8', function (err, data) {
+
+        if (err) throw err;
+
+        var $ = cheerio.load(data);
+
+        $('h1').text("Password Successfully Changed");
+        $.html();
+        res.send($.html());
+      });
+    }
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
+
+var otp;
+
+// Verify ID with OTP
+const verifyIdOtp = async (req, res) => {
+  try {
+    RUser = await userLoginInfo.findOne({ id: req.body.id });
+    const mainUserInfo = await userInfo.findOne({ id: req.body.id });
+
+    if (RUser == null) {
+      fs.readFile(index.dirname + "/views/verify-ID-OTP.html", 'utf8', function (err, data) {
+
+        if (err) throw err;
+
+        var $ = cheerio.load(data);
+
+        $('p.warning').text("ID Doesn't Exists");
+        $.html();
+        res.send($.html());
+      });
+    }
+    else {
+      otp = (Math.floor(Math.random() * 10000) + 10000).toString().substring(1);
+      sendTheMail(mainUserInfo.email, "Binary5: Here is you password reset OTP", "Hi " + mainUserInfo.name + ", your OTP : " + otp);
+
+      fs.readFile(index.dirname + "/views/verify-ID-OTP-2.html", 'utf8', function (err, data) {
+
+        if (err) throw err;
+
+        var $ = cheerio.load(data);
+
+        if (RUser == null) {
+          $('p.warning').text("OTP Session timeout, Try again");
+          $.html();
+          res.send($.html());
+        }
+        else {
+          $('div.divID').append('<input id="login__username" type="number" name="id" class="form__input" placeholder=' + RUser.id + ' readonly>');
+
+          $.html();
+          res.send($.html());
+        }
+      });
+    }
+
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
+
+// Final Verify ID with OTP
+const finalVerifyIdOtp = async (req, res) => {
+  try {
+    if (otp != req.body.uotp) {
+      fs.readFile(index.dirname + "/views/verify-ID-OTP-2.html", 'utf8', function (err, data) {
+
+        if (err) throw err;
+
+        var $ = cheerio.load(data);
+
+        if (RUser == null) {
+          $('p.warning').text("OTP Session timeout, Try again");
+          $.html();
+          res.send($.html());
+        }
+        else {
+          $('div.divID').append('<input id="login__username" type="number" name="id" class="form__input" placeholder=' + RUser.id + ' readonly>');
+
+          $('p.warning').text("Wrong OTP");
+
+          $.html();
+          res.send($.html());
+        }
+      });
+    }
+    else {
+
+      if (RUser == null) {
+        fs.readFile(index.dirname + "/views/verify-ID-OTP-2.html", 'utf8', function (err, data) {
+
+          if (err) throw err;
+
+          var $ = cheerio.load(data);
+
+          $('div.divID').append('<input id="login__username" type="number" name="id" class="form__input" placeholder=' + RUser.id + ' readonly>');
+
+          $('p.warning').text("OTP Session timeout, Try again");
+          $.html();
+          res.send($.html());
+        });
+      }
+      else {
+        res.redirect("/forget-password");
+      }
+    }
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
+
+/*
 // delete user
 const deleteUser = async (req, res) => {
   try {
@@ -287,4 +479,4 @@ const deleteUser = async (req, res) => {
   }
 };*/
 
-module.exports = { getAllUsers, createUser, getActiveUser, loadUserProfile, loadClassMates, signOut, getOneClassMate };
+module.exports = { getAllUsers, createUser, getActiveUser, loadUserProfile, loadClassMates, signOut, getOneClassMate, forgetPassword, verifyIdOtp, finalVerifyIdOtp, changePassword };

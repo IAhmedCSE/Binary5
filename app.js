@@ -4,6 +4,7 @@ require("./config/db");
 const bodyParser = require('body-parser');
 const usersRouter = require("./routes/users.route");
 const adminsRouter = require("./routes/admin.route");
+const facultyRouter = require("./routes/faculty.route");
 const cheerio = require('cheerio');
 const fs = require('fs');
 
@@ -20,13 +21,19 @@ app.use("/",usersRouter);
 
 app.use("/admin",adminsRouter);
 
+app.use("/faculty-signin",facultyRouter);
+
 app.get("/signup",(req,res) => {
     res.sendFile(__dirname + "/views/signup.html");
 });
 
+app.get("/verify-ID-OTP",(req,res) => {
+    res.sendFile(__dirname + "/views/verify-ID-OTP.html");
+});
+
 app.post("/signup",createUser);
 
-app.get("/:id", getOneClassMate);
+app.get("/:id([0-9]{10})", getOneClassMate);
 
 // home route
 app.get("/", (req,res) => {
