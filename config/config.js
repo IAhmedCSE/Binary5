@@ -7,6 +7,12 @@ const dev = {
   db: {
     url: process.env.DB_URL || "mongodb://localhost:27017/userDB",
   },
+  mailSender: {
+    mail: process.env.MAIL_SENDER,
+  },
+  mailPassword: {
+    password: process.env.MAIL_PASSWORD,
+  },
 };
 
 module.exports = dev;
