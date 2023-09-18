@@ -12,7 +12,7 @@ var transporter = nodemailer.createTransport({
     }
 });
 
-function sendTheMail(mailReceiver, mailSubject, mailBody) {
+async function sendTheMail(mailReceiver, mailSubject, mailBody) {
 
     var mailOptions = {
         from: config.mailSender.mail,
@@ -21,12 +21,24 @@ function sendTheMail(mailReceiver, mailSubject, mailBody) {
         text: mailBody
     };
 
-    transporter.sendMail(mailOptions, function (error, info) {
+    /*transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
             console.log(error);
         } else {
             console.log('Email sent: ' + info.response);
         }
+    });*/
+
+    await new Promise((resolve, reject) => {
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.error(error);
+                reject(error);
+            } else {
+                resolve(info);
+                console.log('Email sent: ' + info.response);
+            }
+        });
     });
 }
 
