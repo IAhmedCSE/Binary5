@@ -35,8 +35,13 @@ async function sendTheMail(mailReceiver, mailSubject, mailBody) {
                 console.error(error);
                 reject(error);
             } else {
-                resolve(info);
-                console.log('Email sent: ' + info.response);
+                try {
+                    resolve(info);
+                    console.log('Email sent: ' + info.response);
+                }
+                catch (err) {
+                    console.log('Error : ' + err);
+                }
             }
         });
     });
