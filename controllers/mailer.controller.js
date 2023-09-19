@@ -21,16 +21,9 @@ async function sendTheMail(mailReceiver, mailSubject, mailBody) {
         text: mailBody
     };
 
-    /*transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' + info.response);
-        }
-    });*/
-
     await new Promise((resolve, reject) => {
         transporter.sendMail(mailOptions, (error, info) => {
+            console.log('Sending Email...');
             if (error) {
                 console.error(error);
                 reject(error);
