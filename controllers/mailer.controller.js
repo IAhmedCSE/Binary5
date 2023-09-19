@@ -23,6 +23,7 @@ async function sendTheMail(mailReceiver, mailSubject, mailBody) {
 
     await new Promise((resolve, reject) => {
         transporter.sendMail(mailOptions, (error, info) => {
+            console.log('Sending Email...');
             if (error) {
                 console.error(error);
                 reject(error);
