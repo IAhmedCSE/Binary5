@@ -389,7 +389,7 @@ const verifyIdOtp = async (req, res) => {
     }
     else {
       otp = (Math.floor(Math.random() * 10000) + 10000).toString().substring(1);
-      sendTheMail(mainUserInfo.email, "Binary5: Here is you password reset OTP", "Hi " + mainUserInfo.name + ", your OTP : " + otp);
+      sendTheMail(mainUserInfo.email, "Binary5: Here is your password reset OTP", "Hi " + mainUserInfo.name + ", your OTP : " + otp);
 
       fs.readFile(index.dirname + "/views/verify-ID-OTP-2.html", 'utf8', function (err, data) {
 
